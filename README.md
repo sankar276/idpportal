@@ -45,6 +45,11 @@ This project draws architectural inspiration from the following open-source proj
 
 ## Architecture Overview
 
+![Architecture Overview](docs/images/1_architecture-overview.svg)
+
+<details>
+<summary>Text-based architecture diagram</summary>
+
 ```
  Developers                                    Platform Engineers
      |                                                |
@@ -92,6 +97,7 @@ This project draws architectural inspiration from the following open-source proj
               |  Kafka (Redpanda)    |
               +----------------------+
 ```
+</details>
 
 ---
 
@@ -177,6 +183,11 @@ This project draws architectural inspiration from the following open-source proj
 
 ## AI Multi-Agent Architecture
 
+![Multi-Agent System](docs/images/2_multi-agent-system.svg)
+
+<details>
+<summary>Text-based agent architecture diagram</summary>
+
 ```
   User: "Create a new microservice called order-api with a Kafka topic"
                                     |
@@ -259,10 +270,16 @@ This project draws architectural inspiration from the following open-source proj
   |             | fix_violations, list_policies         | Agent HTTP   |
   +-------------+--------------------------------------+--------------+
 ```
+</details>
 
 ---
 
 ## GitOps Bridge Pattern
+
+![GitOps Bridge Pattern](docs/images/3_gitops-bridge-pattern.svg)
+
+<details>
+<summary>Text-based GitOps Bridge diagram</summary>
 
 ```
   PHASE 1: Terraform provisions infrastructure and passes metadata
@@ -349,10 +366,16 @@ This project draws architectural inspiration from the following open-source proj
   |  ai-platform      --> idpportal namespace                        |
   +------------------------------------------------------------------+
 ```
+</details>
 
 ---
 
 ## Policy-as-Code Architecture
+
+![Policy-as-Code](docs/images/4_policy-as-code.svg)
+
+<details>
+<summary>Text-based Policy architecture diagram</summary>
 
 ```
   Policy Agent integrates in 4 modes:
@@ -407,10 +430,16 @@ This project draws architectural inspiration from the following open-source proj
   |             | versions, require namespace, health checks         |
   +-------------+----------------------------------------------------+
 ```
+</details>
 
 ---
 
 ## Identity and Auth Architecture
+
+![Identity & Auth](docs/images/5_identity-auth.svg)
+
+<details>
+<summary>Text-based Identity architecture diagram</summary>
 
 ```
   +------------------------------------------------------------------+
@@ -464,10 +493,16 @@ This project draws architectural inspiration from the following open-source proj
   |  (all share the same Keycloak realm)                             |
   +------------------------------------------------------------------+
 ```
+</details>
 
 ---
 
 ## Self-Service Flow
+
+![Self-Service Flow](docs/images/6_self-service-flow.svg)
+
+<details>
+<summary>Text-based Self-Service flow diagram</summary>
 
 ```
   Developer: "I need a new microservice with a Kafka topic"
@@ -521,6 +556,7 @@ This project draws architectural inspiration from the following open-source proj
   |  Jira Agent creates tracking ticket                         |
   +-------------------------------------------------------------+
 ```
+</details>
 
 ---
 

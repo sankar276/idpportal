@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 700" style="font-family: 'Virgil', 'Segoe Print', 'Comic Sans MS', cursive; background: #ffffff;">
+  <defs>
+    <marker id="arrow5" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L12,4 L0,8 Z" fill="#495057"/>
+    </marker>
+    <marker id="arrow5-purple" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L12,4 L0,8 Z" fill="#7950f2"/>
+    </marker>
+    <filter id="shadow5">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Title -->
+  <text x="550" y="40" text-anchor="middle" font-size="24" font-weight="bold" fill="#1e1e1e">Identity &amp; Authentication Architecture</text>
+  <text x="550" y="62" text-anchor="middle" font-size="14" fill="#868e96">Keycloak as identity broker with enterprise IdP federation</text>
+
+  <!-- User -->
+  <rect x="430" y="85" width="240" height="55" rx="10" fill="#e7f5ff" stroke="#1971c2" stroke-width="2" filter="url(#shadow5)"/>
+  <text x="550" y="112" text-anchor="middle" font-size="16" font-weight="bold" fill="#1864ab">Developer</text>
+  <text x="550" y="130" text-anchor="middle" font-size="11" fill="#1971c2">Browser / CLI</text>
+
+  <!-- Arrow User → Next.js -->
+  <line x1="550" y1="140" x2="550" y2="175" stroke="#495057" stroke-width="2" marker-end="url(#arrow5)"/>
+
+  <!-- Next.js / Portal UI -->
+  <rect x="400" y="175" width="300" height="55" rx="10" fill="#d0bfff" stroke="#7950f2" stroke-width="2" filter="url(#shadow5)"/>
+  <text x="550" y="202" text-anchor="middle" font-size="15" font-weight="bold" fill="#5f3dc4">Portal UI (Next.js 15)</text>
+  <text x="550" y="220" text-anchor="middle" font-size="11" fill="#7048e8">next-auth v5 / OIDC</text>
+
+  <!-- Arrow Next.js → Keycloak -->
+  <line x1="550" y1="230" x2="550" y2="280" stroke="#7950f2" stroke-width="2" marker-end="url(#arrow5-purple)"/>
+  <text x="570" y="260" font-size="11" fill="#7950f2">OIDC Flow</text>
+
+  <!-- Keycloak (central) -->
+  <rect x="330" y="280" width="440" height="120" rx="14" fill="#eebefa" stroke="#9c36b5" stroke-width="2.5" filter="url(#shadow5)"/>
+  <text x="550" y="310" text-anchor="middle" font-size="18" font-weight="bold" fill="#862e9c">Keycloak</text>
+  <text x="550" y="330" text-anchor="middle" font-size="12" fill="#9c36b5">Realm: idpportal  |  Identity Broker</text>
+  <line x1="360" y1="340" x2="740" y2="340" stroke="#d0bfff" stroke-width="1"/>
+  <!-- Clients -->
+  <text x="370" y="360" font-size="11" fill="#495057">Clients:</text>
+  <rect x="430" y="348" width="60" height="20" rx="4" fill="#d0bfff" stroke="#7950f2" stroke-width="1"/>
+  <text x="460" y="362" text-anchor="middle" font-size="9" fill="#5f3dc4">portal-ui</text>
+  <rect x="500" y="348" width="55" height="20" rx="4" fill="#d0ebff" stroke="#1971c2" stroke-width="1"/>
+  <text x="527" y="362" text-anchor="middle" font-size="9" fill="#1864ab">argocd</text>
+  <rect x="565" y="348" width="70" height="20" rx="4" fill="#d3f9d8" stroke="#40c057" stroke-width="1"/>
+  <text x="600" y="362" text-anchor="middle" font-size="9" fill="#2b8a3e">backstage</text>
+  <rect x="645" y="348" width="45" height="20" rx="4" fill="#ffe8cc" stroke="#e8590c" stroke-width="1"/>
+  <text x="667" y="362" text-anchor="middle" font-size="9" fill="#d9480f">vault</text>
+  <!-- Roles -->
+  <text x="370" y="390" font-size="11" fill="#495057">Roles: admin, developer, viewer</text>
+
+  <!-- Enterprise IdPs -->
+  <!-- Okta -->
+  <rect x="50" y="310" width="200" height="60" rx="10" fill="#fff3bf" stroke="#f59f00" stroke-width="2" filter="url(#shadow5)"/>
+  <text x="150" y="338" text-anchor="middle" font-size="14" font-weight="bold" fill="#e67700">Okta</text>
+  <text x="150" y="356" text-anchor="middle" font-size="11" fill="#f08c00">Enterprise IdP (SAML/OIDC)</text>
+
+  <!-- ForgeRock -->
+  <rect x="850" y="310" width="200" height="60" rx="10" fill="#ffe8cc" stroke="#e8590c" stroke-width="2" filter="url(#shadow5)"/>
+  <text x="950" y="338" text-anchor="middle" font-size="14" font-weight="bold" fill="#d9480f">ForgeRock</text>
+  <text x="950" y="356" text-anchor="middle" font-size="11" fill="#e8590c">Enterprise IdP (SAML/OIDC)</text>
+
+  <!-- Arrows: IdPs ↔ Keycloak -->
+  <path d="M 250 340 L 328 340" stroke="#f08c00" stroke-width="2" marker-end="url(#arrow5)"/>
+  <text x="289" y="332" text-anchor="middle" font-size="10" fill="#f08c00">broker</text>
+  <path d="M 848 340 L 772 340" stroke="#e8590c" stroke-width="2" marker-end="url(#arrow5)"/>
+  <text x="810" y="332" text-anchor="middle" font-size="10" fill="#e8590c">broker</text>
+
+  <!-- Downstream services -->
+  <text x="550" y="440" text-anchor="middle" font-size="14" font-weight="bold" fill="#495057">JWT-Protected Services</text>
+
+  <!-- Arrow Keycloak → services -->
+  <line x1="460" y1="400" x2="200" y2="470" stroke="#9c36b5" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow5)"/>
+  <line x1="500" y1="400" x2="400" y2="470" stroke="#9c36b5" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow5)"/>
+  <line x1="600" y1="400" x2="600" y2="470" stroke="#9c36b5" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow5)"/>
+  <line x1="680" y1="400" x2="800" y2="470" stroke="#9c36b5" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow5)"/>
+  <line x1="700" y1="400" x2="980" y2="470" stroke="#9c36b5" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow5)"/>
+
+  <!-- Service boxes -->
+  <rect x="100" y="470" width="180" height="55" rx="8" fill="#d3f9d8" stroke="#40c057" stroke-width="1.5" filter="url(#shadow5)"/>
+  <text x="190" y="496" text-anchor="middle" font-size="13" font-weight="bold" fill="#2b8a3e">FastAPI Backend</text>
+  <text x="190" y="514" text-anchor="middle" font-size="10" fill="#37b24d">JWT verify + RBAC</text>
+
+  <rect x="310" y="470" width="180" height="55" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="1.5" filter="url(#shadow5)"/>
+  <text x="400" y="496" text-anchor="middle" font-size="13" font-weight="bold" fill="#1864ab">ArgoCD</text>
+  <text x="400" y="514" text-anchor="middle" font-size="10" fill="#1971c2">OIDC SSO</text>
+
+  <rect x="510" y="470" width="180" height="55" rx="8" fill="#d0bfff" stroke="#7950f2" stroke-width="1.5" filter="url(#shadow5)"/>
+  <text x="600" y="496" text-anchor="middle" font-size="13" font-weight="bold" fill="#5f3dc4">Backstage</text>
+  <text x="600" y="514" text-anchor="middle" font-size="10" fill="#7048e8">Keycloak auth provider</text>
+
+  <rect x="710" y="470" width="180" height="55" rx="8" fill="#ffe8cc" stroke="#e8590c" stroke-width="1.5" filter="url(#shadow5)"/>
+  <text x="800" y="496" text-anchor="middle" font-size="13" font-weight="bold" fill="#d9480f">Vault</text>
+  <text x="800" y="514" text-anchor="middle" font-size="10" fill="#e8590c">OIDC auth method</text>
+
+  <rect x="900" y="470" width="160" height="55" rx="8" fill="#eebefa" stroke="#9c36b5" stroke-width="1.5" filter="url(#shadow5)"/>
+  <text x="980" y="496" text-anchor="middle" font-size="13" font-weight="bold" fill="#862e9c">Rancher</text>
+  <text x="980" y="514" text-anchor="middle" font-size="10" fill="#9c36b5">OIDC SSO</text>
+
+  <!-- Auth flow explanation -->
+  <rect x="100" y="570" width="900" height="100" rx="10" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1.5"/>
+  <text x="550" y="595" text-anchor="middle" font-size="14" font-weight="bold" fill="#495057">Authentication Flow</text>
+
+  <rect x="120" y="610" width="130" height="45" rx="6" fill="#e7f5ff" stroke="#1971c2" stroke-width="1"/>
+  <text x="185" y="630" text-anchor="middle" font-size="10" fill="#1864ab">User clicks login</text>
+  <text x="185" y="645" text-anchor="middle" font-size="9" fill="#495057">in Portal UI</text>
+
+  <path d="M 250 632 L 275 632" stroke="#495057" stroke-width="1.5" marker-end="url(#arrow5)"/>
+
+  <rect x="280" y="610" width="150" height="45" rx="6" fill="#d0bfff" stroke="#7950f2" stroke-width="1"/>
+  <text x="355" y="630" text-anchor="middle" font-size="10" fill="#5f3dc4">next-auth redirects</text>
+  <text x="355" y="645" text-anchor="middle" font-size="9" fill="#495057">to Keycloak</text>
+
+  <path d="M 430 632 L 455 632" stroke="#495057" stroke-width="1.5" marker-end="url(#arrow5)"/>
+
+  <rect x="460" y="610" width="150" height="45" rx="6" fill="#eebefa" stroke="#9c36b5" stroke-width="1"/>
+  <text x="535" y="630" text-anchor="middle" font-size="10" fill="#862e9c">Keycloak login</text>
+  <text x="535" y="645" text-anchor="middle" font-size="9" fill="#495057">(or broker to Okta)</text>
+
+  <path d="M 610 632 L 635 632" stroke="#495057" stroke-width="1.5" marker-end="url(#arrow5)"/>
+
+  <rect x="640" y="610" width="150" height="45" rx="6" fill="#d3f9d8" stroke="#40c057" stroke-width="1"/>
+  <text x="715" y="630" text-anchor="middle" font-size="10" fill="#2b8a3e">JWT issued with</text>
+  <text x="715" y="645" text-anchor="middle" font-size="9" fill="#495057">roles &amp; groups</text>
+
+  <path d="M 790 632 L 815 632" stroke="#495057" stroke-width="1.5" marker-end="url(#arrow5)"/>
+
+  <rect x="820" y="610" width="160" height="45" rx="6" fill="#fff3bf" stroke="#f59f00" stroke-width="1"/>
+  <text x="900" y="630" text-anchor="middle" font-size="10" fill="#e67700">JWT passed to API</text>
+  <text x="900" y="645" text-anchor="middle" font-size="9" fill="#495057">backend on each call</text>
+</svg>

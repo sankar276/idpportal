@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850" style="font-family: 'Virgil', 'Segoe Print', 'Comic Sans MS', cursive; background: #ffffff;">
+  <defs>
+    <marker id="arrow6" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L12,4 L0,8 Z" fill="#495057"/>
+    </marker>
+    <marker id="arrow6-green" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L12,4 L0,8 Z" fill="#2b8a3e"/>
+    </marker>
+    <filter id="shadow6">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" font-size="24" font-weight="bold" fill="#1e1e1e">Self-Service Provisioning Flow</text>
+  <text x="600" y="62" text-anchor="middle" font-size="14" fill="#868e96">AI-assisted developer self-service with policy guardrails</text>
+
+  <!-- Entry Points -->
+  <text x="600" y="100" text-anchor="middle" font-size="16" font-weight="bold" fill="#495057">Two Entry Points</text>
+
+  <!-- Chat Entry -->
+  <rect x="100" y="120" width="380" height="70" rx="12" fill="#d0bfff" stroke="#7950f2" stroke-width="2" filter="url(#shadow6)"/>
+  <text x="290" y="150" text-anchor="middle" font-size="15" font-weight="bold" fill="#5f3dc4">AI Chat Interface</text>
+  <text x="290" y="172" text-anchor="middle" font-size="12" fill="#7048e8">"Create a new microservice called payments-api"</text>
+
+  <!-- Template Entry -->
+  <rect x="720" y="120" width="380" height="70" rx="12" fill="#d0ebff" stroke="#1971c2" stroke-width="2" filter="url(#shadow6)"/>
+  <text x="910" y="150" text-anchor="middle" font-size="15" font-weight="bold" fill="#1864ab">Self-Service Hub (UI)</text>
+  <text x="910" y="172" text-anchor="middle" font-size="12" fill="#1971c2">Template gallery → wizard → fill parameters</text>
+
+  <!-- Arrows to unified flow -->
+  <path d="M 290 190 Q 290 220 450 240" stroke="#7950f2" stroke-width="2" marker-end="url(#arrow6)"/>
+  <path d="M 910 190 Q 910 220 750 240" stroke="#1971c2" stroke-width="2" marker-end="url(#arrow6)"/>
+
+  <!-- Step 1: Intent / Template Selection -->
+  <rect x="380" y="240" width="440" height="60" rx="10" fill="#fff3bf" stroke="#f59f00" stroke-width="2" filter="url(#shadow6)"/>
+  <text x="420" y="270" font-size="14" font-weight="bold" fill="#e67700">Step 1</text>
+  <text x="490" y="270" font-size="14" fill="#495057">Supervisor classifies intent → selects workflow</text>
+  <text x="490" y="290" font-size="11" fill="#868e96">create_service | create_kafka_topic | provision_database | create_repo</text>
+
+  <line x1="600" y1="300" x2="600" y2="330" stroke="#495057" stroke-width="2" marker-end="url(#arrow6)"/>
+
+  <!-- Step 2: Parameter Collection -->
+  <rect x="380" y="330" width="440" height="60" rx="10" fill="#d0bfff" stroke="#7950f2" stroke-width="2" filter="url(#shadow6)"/>
+  <text x="420" y="360" font-size="14" font-weight="bold" fill="#5f3dc4">Step 2</text>
+  <text x="490" y="360" font-size="14" fill="#495057">Collect parameters (AI or wizard form)</text>
+  <text x="490" y="380" font-size="11" fill="#868e96">service name, language, team, Kafka topics, DB type, etc.</text>
+
+  <line x1="600" y1="390" x2="600" y2="420" stroke="#495057" stroke-width="2" marker-end="url(#arrow6)"/>
+
+  <!-- Step 3: Policy Validation -->
+  <rect x="380" y="420" width="440" height="70" rx="10" fill="#ffe3e3" stroke="#e03131" stroke-width="2" filter="url(#shadow6)"/>
+  <text x="420" y="450" font-size="14" font-weight="bold" fill="#c92a2a">Step 3</text>
+  <text x="490" y="450" font-size="14" fill="#495057">Policy Agent validates generated configs</text>
+  <text x="490" y="470" font-size="11" fill="#e03131">→ violations? AI auto-fixes and re-validates</text>
+  <text x="490" y="485" font-size="11" fill="#2b8a3e">→ compliant? proceed to provisioning</text>
+
+  <!-- Policy check fork -->
+  <rect x="860" y="430" width="200" height="50" rx="8" fill="#ffe3e3" stroke="#e03131" stroke-width="1.5"/>
+  <text x="960" y="454" text-anchor="middle" font-size="12" font-weight="bold" fill="#c92a2a">Policy Agent (Go)</text>
+  <text x="960" y="470" text-anchor="middle" font-size="10" fill="#e03131">OPA/Rego validation</text>
+  <path d="M 820 455 L 858 455" stroke="#e03131" stroke-width="1.5" marker-end="url(#arrow6)"/>
+
+  <line x1="600" y1="490" x2="600" y2="520" stroke="#495057" stroke-width="2" marker-end="url(#arrow6)"/>
+
+  <!-- Step 4: Multi-Agent Provisioning -->
+  <rect x="150" y="520" width="900" height="150" rx="12" fill="#f8f9fa" stroke="#adb5bd" stroke-width="2" filter="url(#shadow6)"/>
+  <text x="210" y="548" font-size="14" font-weight="bold" fill="#495057">Step 4</text>
+  <text x="310" y="548" font-size="14" fill="#495057">Multi-Agent Provisioning (parallel where possible)</text>
+
+  <!-- Sub-steps -->
+  <rect x="170" y="565" width="160" height="50" rx="6" fill="#d0ebff" stroke="#1971c2" stroke-width="1.5"/>
+  <text x="250" y="588" text-anchor="middle" font-size="12" font-weight="bold" fill="#1864ab">GitHub Agent</text>
+  <text x="250" y="604" text-anchor="middle" font-size="10" fill="#1971c2">Create repo from skeleton</text>
+
+  <rect x="345" y="565" width="160" height="50" rx="6" fill="#d3f9d8" stroke="#40c057" stroke-width="1.5"/>
+  <text x="425" y="588" text-anchor="middle" font-size="12" font-weight="bold" fill="#2b8a3e">ArgoCD Agent</text>
+  <text x="425" y="604" text-anchor="middle" font-size="10" fill="#37b24d">Create Application CR</text>
+
+  <rect x="520" y="565" width="160" height="50" rx="6" fill="#ffe8cc" stroke="#e8590c" stroke-width="1.5"/>
+  <text x="600" y="588" text-anchor="middle" font-size="12" font-weight="bold" fill="#d9480f">Kafka Agent</text>
+  <text x="600" y="604" text-anchor="middle" font-size="10" fill="#e8590c">Create KafkaTopic CR</text>
+
+  <rect x="695" y="565" width="160" height="50" rx="6" fill="#ffe8cc" stroke="#e8590c" stroke-width="1.5"/>
+  <text x="775" y="588" text-anchor="middle" font-size="12" font-weight="bold" fill="#d9480f">Vault Agent</text>
+  <text x="775" y="604" text-anchor="middle" font-size="10" fill="#e8590c">Store secrets</text>
+
+  <rect x="870" y="565" width="160" height="50" rx="6" fill="#d0bfff" stroke="#7950f2" stroke-width="1.5"/>
+  <text x="950" y="588" text-anchor="middle" font-size="12" font-weight="bold" fill="#5f3dc4">Backstage Agent</text>
+  <text x="950" y="604" text-anchor="middle" font-size="10" fill="#7048e8">Register in catalog</text>
+
+  <!-- Progress tracking -->
+  <rect x="170" y="630" width="860" height="25" rx="5" fill="#ebfbee" stroke="#40c057" stroke-width="1"/>
+  <text x="600" y="648" text-anchor="middle" font-size="11" fill="#2b8a3e">SSE streams real-time progress: "Creating repo... Setting up ArgoCD app... Provisioning Kafka topics..."</text>
+
+  <line x1="600" y1="670" x2="600" y2="700" stroke="#495057" stroke-width="2" marker-end="url(#arrow6)"/>
+
+  <!-- Step 5: Notification -->
+  <rect x="380" y="700" width="440" height="55" rx="10" fill="#d3f9d8" stroke="#40c057" stroke-width="2" filter="url(#shadow6)"/>
+  <text x="420" y="728" font-size="14" font-weight="bold" fill="#2b8a3e">Step 5</text>
+  <text x="490" y="728" font-size="14" fill="#495057">Notify &amp; Complete</text>
+  <text x="490" y="748" font-size="11" fill="#868e96">Slack notification + Jira ticket + summary in chat</text>
+
+  <!-- Slack callout -->
+  <rect x="860" y="700" width="200" height="50" rx="8" fill="#d3f9d8" stroke="#40c057" stroke-width="1.5"/>
+  <text x="960" y="724" text-anchor="middle" font-size="12" font-weight="bold" fill="#2b8a3e">Slack Agent</text>
+  <text x="960" y="740" text-anchor="middle" font-size="10" fill="#37b24d">#platform-notifications</text>
+  <path d="M 820 727 L 858 727" stroke="#40c057" stroke-width="1.5" marker-end="url(#arrow6-green)"/>
+
+  <!-- Example output box -->
+  <rect x="100" y="780" width="1000" height="55" rx="8" fill="#fff9db" stroke="#f59f00" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="600" y="802" text-anchor="middle" font-size="13" font-weight="bold" fill="#e67700">Example Output</text>
+  <text x="600" y="822" text-anchor="middle" font-size="11" fill="#495057">Repo: github.com/org/payments-api  |  ArgoCD: payments-api (synced)  |  Kafka: payments.events (3 partitions)  |  Catalog: registered</text>
+</svg>

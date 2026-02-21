@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" style="font-family: 'Virgil', 'Segoe Print', 'Comic Sans MS', cursive; background: #ffffff;">
+  <defs>
+    <marker id="arrow2" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L12,4 L0,8 Z" fill="#495057"/>
+    </marker>
+    <marker id="arrow2-green" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L12,4 L0,8 Z" fill="#2b8a3e"/>
+    </marker>
+    <marker id="arrow2-blue" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L12,4 L0,8 Z" fill="#1971c2"/>
+    </marker>
+    <filter id="shadow2">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" font-size="24" font-weight="bold" fill="#1e1e1e">IDP Portal — Multi-Agent Orchestration (LangGraph)</text>
+  <text x="600" y="62" text-anchor="middle" font-size="14" fill="#868e96">Supervisor pattern with 12 specialized sub-agents</text>
+
+  <!-- User / Chat UI -->
+  <rect x="480" y="85" width="240" height="60" rx="10" fill="#d0bfff" stroke="#7950f2" stroke-width="2" filter="url(#shadow2)"/>
+  <text x="600" y="118" text-anchor="middle" font-size="16" font-weight="bold" fill="#5f3dc4">Chat UI (Next.js)</text>
+  <text x="600" y="136" text-anchor="middle" font-size="11" fill="#7048e8">SSE streaming</text>
+
+  <!-- Arrow: Chat → FastAPI -->
+  <line x1="600" y1="145" x2="600" y2="180" stroke="#495057" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- FastAPI Gateway -->
+  <rect x="430" y="180" width="340" height="55" rx="10" fill="#d3f9d8" stroke="#40c057" stroke-width="2" filter="url(#shadow2)"/>
+  <text x="600" y="208" text-anchor="middle" font-size="16" font-weight="bold" fill="#2b8a3e">FastAPI Backend</text>
+  <text x="600" y="226" text-anchor="middle" font-size="11" fill="#37b24d">/api/v1/chat/stream  •  Keycloak JWT Auth</text>
+
+  <!-- Arrow: FastAPI → Supervisor -->
+  <line x1="600" y1="235" x2="600" y2="275" stroke="#495057" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- Supervisor Agent -->
+  <rect x="420" y="275" width="360" height="70" rx="14" fill="#fff3bf" stroke="#f59f00" stroke-width="2.5" filter="url(#shadow2)"/>
+  <text x="600" y="305" text-anchor="middle" font-size="18" font-weight="bold" fill="#e67700">Supervisor Agent</text>
+  <text x="600" y="325" text-anchor="middle" font-size="12" fill="#f08c00">LangGraph StateGraph  •  Intent Classification  •  Agent Routing</text>
+  <text x="600" y="339" text-anchor="middle" font-size="11" fill="#e67700">Claude Sonnet → classify → route → synthesize</text>
+
+  <!-- Left column agents -->
+  <!-- GitHub -->
+  <rect x="30" y="420" width="160" height="65" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="110" y="448" text-anchor="middle" font-size="13" font-weight="bold" fill="#1864ab">GitHub Agent</text>
+  <text x="110" y="464" text-anchor="middle" font-size="10" fill="#1971c2">repos, PRs, issues</text>
+  <text x="110" y="478" text-anchor="middle" font-size="9" fill="#495057">MCP: github.*</text>
+
+  <!-- ArgoCD -->
+  <rect x="30" y="500" width="160" height="65" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="110" y="528" text-anchor="middle" font-size="13" font-weight="bold" fill="#1864ab">ArgoCD Agent</text>
+  <text x="110" y="544" text-anchor="middle" font-size="10" fill="#1971c2">sync, rollback, status</text>
+  <text x="110" y="558" text-anchor="middle" font-size="9" fill="#495057">MCP: argocd.*</text>
+
+  <!-- Flux -->
+  <rect x="30" y="580" width="160" height="65" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="110" y="608" text-anchor="middle" font-size="13" font-weight="bold" fill="#1864ab">Flux Agent</text>
+  <text x="110" y="624" text-anchor="middle" font-size="10" fill="#1971c2">reconcile, suspend</text>
+  <text x="110" y="638" text-anchor="middle" font-size="9" fill="#495057">MCP: flux.*</text>
+
+  <!-- Jira -->
+  <rect x="30" y="660" width="160" height="65" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="110" y="688" text-anchor="middle" font-size="13" font-weight="bold" fill="#1864ab">Jira Agent</text>
+  <text x="110" y="704" text-anchor="middle" font-size="10" fill="#1971c2">tickets, sprints</text>
+  <text x="110" y="718" text-anchor="middle" font-size="9" fill="#495057">MCP: jira.*</text>
+
+  <!-- Center-left agents -->
+  <!-- Slack -->
+  <rect x="220" y="420" width="160" height="65" rx="8" fill="#d3f9d8" stroke="#40c057" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="300" y="448" text-anchor="middle" font-size="13" font-weight="bold" fill="#2b8a3e">Slack Agent</text>
+  <text x="300" y="464" text-anchor="middle" font-size="10" fill="#37b24d">messages, channels</text>
+  <text x="300" y="478" text-anchor="middle" font-size="9" fill="#495057">MCP: slack.*</text>
+
+  <!-- PagerDuty -->
+  <rect x="220" y="500" width="160" height="65" rx="8" fill="#d3f9d8" stroke="#40c057" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="300" y="528" text-anchor="middle" font-size="13" font-weight="bold" fill="#2b8a3e">PagerDuty Agent</text>
+  <text x="300" y="544" text-anchor="middle" font-size="10" fill="#37b24d">incidents, on-call</text>
+  <text x="300" y="558" text-anchor="middle" font-size="9" fill="#495057">MCP: pagerduty.*</text>
+
+  <!-- Backstage -->
+  <rect x="220" y="580" width="160" height="65" rx="8" fill="#d3f9d8" stroke="#40c057" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="300" y="608" text-anchor="middle" font-size="13" font-weight="bold" fill="#2b8a3e">Backstage Agent</text>
+  <text x="300" y="624" text-anchor="middle" font-size="10" fill="#37b24d">catalog, templates</text>
+  <text x="300" y="638" text-anchor="middle" font-size="9" fill="#495057">MCP: backstage.*</text>
+
+  <!-- Center-right agents -->
+  <!-- Kafka -->
+  <rect x="710" y="420" width="160" height="65" rx="8" fill="#ffe8cc" stroke="#e8590c" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="790" y="448" text-anchor="middle" font-size="13" font-weight="bold" fill="#d9480f">Kafka Agent</text>
+  <text x="790" y="464" text-anchor="middle" font-size="10" fill="#e8590c">topics, schemas</text>
+  <text x="790" y="478" text-anchor="middle" font-size="9" fill="#495057">MCP: kafka.*</text>
+
+  <!-- Vault -->
+  <rect x="710" y="500" width="160" height="65" rx="8" fill="#ffe8cc" stroke="#e8590c" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="790" y="528" text-anchor="middle" font-size="13" font-weight="bold" fill="#d9480f">Vault Agent</text>
+  <text x="790" y="544" text-anchor="middle" font-size="10" fill="#e8590c">secrets CRUD</text>
+  <text x="790" y="558" text-anchor="middle" font-size="9" fill="#495057">MCP: vault.*</text>
+
+  <!-- Rancher -->
+  <rect x="710" y="580" width="160" height="65" rx="8" fill="#ffe8cc" stroke="#e8590c" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="790" y="608" text-anchor="middle" font-size="13" font-weight="bold" fill="#d9480f">Rancher Agent</text>
+  <text x="790" y="624" text-anchor="middle" font-size="10" fill="#e8590c">cluster mgmt</text>
+  <text x="790" y="638" text-anchor="middle" font-size="9" fill="#495057">MCP: rancher.*</text>
+
+  <!-- Right column agents -->
+  <!-- Policy -->
+  <rect x="910" y="420" width="180" height="65" rx="8" fill="#ffe3e3" stroke="#e03131" stroke-width="2" filter="url(#shadow2)"/>
+  <text x="1000" y="448" text-anchor="middle" font-size="13" font-weight="bold" fill="#c92a2a">Policy Agent</text>
+  <text x="1000" y="464" text-anchor="middle" font-size="10" fill="#e03131">validate, generate, fix</text>
+  <text x="1000" y="478" text-anchor="middle" font-size="9" fill="#495057">Go binary + OPA/Rego</text>
+
+  <!-- Knowledge/RAG -->
+  <rect x="910" y="500" width="180" height="65" rx="8" fill="#eebefa" stroke="#9c36b5" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="1000" y="528" text-anchor="middle" font-size="13" font-weight="bold" fill="#862e9c">Knowledge (RAG)</text>
+  <text x="1000" y="544" text-anchor="middle" font-size="10" fill="#9c36b5">runbooks, docs search</text>
+  <text x="1000" y="558" text-anchor="middle" font-size="9" fill="#495057">pgvector embeddings</text>
+
+  <!-- Arrows: Supervisor → Agents -->
+  <!-- Left column -->
+  <path d="M 480 345 Q 300 380 190 420" stroke="#f08c00" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow2)"/>
+  <path d="M 480 345 Q 320 380 190 500" stroke="#f08c00" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow2)"/>
+  <path d="M 480 345 Q 300 400 190 580" stroke="#f08c00" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow2)"/>
+  <path d="M 480 345 Q 280 420 190 660" stroke="#f08c00" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow2)"/>
+
+  <!-- Center-left -->
+  <path d="M 520 345 Q 380 380 380 420" stroke="#f08c00" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow2)"/>
+  <path d="M 520 345 Q 380 400 380 500" stroke="#f08c00" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow2)"/>
+  <path d="M 520 345 Q 360 420 380 580" stroke="#f08c00" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow2)"/>
+
+  <!-- Center-right -->
+  <path d="M 700 345 Q 770 380 790 420" stroke="#f08c00" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow2)"/>
+  <path d="M 700 345 Q 780 400 790 500" stroke="#f08c00" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow2)"/>
+  <path d="M 700 345 Q 790 420 790 580" stroke="#f08c00" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow2)"/>
+
+  <!-- Right column -->
+  <path d="M 720 345 Q 900 380 910 420" stroke="#f08c00" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow2)"/>
+  <path d="M 720 345 Q 920 400 910 500" stroke="#f08c00" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow2)"/>
+
+  <!-- Protocols box -->
+  <rect x="350" y="760" width="500" height="70" rx="10" fill="#f8f9fa" stroke="#adb5bd" stroke-width="1.5" stroke-dasharray="8,4"/>
+  <text x="600" y="788" text-anchor="middle" font-size="14" font-weight="bold" fill="#495057">Communication Protocols</text>
+  <text x="420" y="810" text-anchor="middle" font-size="12" fill="#1971c2">MCP (Tool Registry)</text>
+  <text x="600" y="810" text-anchor="middle" font-size="12" fill="#40c057">A2A (Agent Discovery)</text>
+  <text x="780" y="810" text-anchor="middle" font-size="12" fill="#7950f2">SSE (Streaming)</text>
+
+  <!-- Flow annotation -->
+  <rect x="30" y="770" width="280" height="55" rx="8" fill="#fff9db" stroke="#f59f00" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="170" y="792" text-anchor="middle" font-size="11" font-weight="bold" fill="#e67700">LangGraph Flow</text>
+  <text x="170" y="808" text-anchor="middle" font-size="10" fill="#f08c00">supervisor → agent → supervisor → FINISH</text>
+
+  <!-- Legend -->
+  <rect x="900" y="680" width="270" height="120" rx="8" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1"/>
+  <text x="1035" y="700" text-anchor="middle" font-size="13" font-weight="bold" fill="#495057">Legend</text>
+  <rect x="915" y="712" width="18" height="12" rx="3" fill="#d0ebff" stroke="#1971c2" stroke-width="1"/>
+  <text x="940" y="723" font-size="10" fill="#495057">DevOps Agents</text>
+  <rect x="915" y="732" width="18" height="12" rx="3" fill="#d3f9d8" stroke="#40c057" stroke-width="1"/>
+  <text x="940" y="743" font-size="10" fill="#495057">Communication Agents</text>
+  <rect x="915" y="752" width="18" height="12" rx="3" fill="#ffe8cc" stroke="#e8590c" stroke-width="1"/>
+  <text x="940" y="763" font-size="10" fill="#495057">Infrastructure Agents</text>
+  <rect x="915" y="772" width="18" height="12" rx="3" fill="#ffe3e3" stroke="#e03131" stroke-width="1"/>
+  <text x="940" y="783" font-size="10" fill="#495057">Policy &amp; Compliance</text>
+</svg>
