@@ -1,0 +1,9 @@
+apiVersion: v2
+name: opa-gatekeeper
+description: OPA Gatekeeper for policy enforcement
+version: 1.0.0
+type: application
+dependencies:
+  - name: gatekeeper
+    version: "3.17.x"
+    repository: https://open-policy-agent.github.io/gatekeeper/charts

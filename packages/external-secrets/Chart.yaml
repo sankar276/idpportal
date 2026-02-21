@@ -1,0 +1,9 @@
+apiVersion: v2
+name: external-secrets
+description: External Secrets Operator for AWS Secrets Manager
+version: 1.0.0
+type: application
+dependencies:
+  - name: external-secrets
+    version: "0.10.x"
+    repository: https://charts.external-secrets.io

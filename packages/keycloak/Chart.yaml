@@ -1,0 +1,9 @@
+apiVersion: v2
+name: keycloak
+description: Keycloak identity provider with IdP broker overlays
+version: 1.0.0
+type: application
+dependencies:
+  - name: keycloak
+    version: "24.x"
+    repository: https://charts.bitnami.com/bitnami

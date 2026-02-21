@@ -1,0 +1,94 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: kafka-topic
+  title: Create Kafka Topic
+  description: Create a new Kafka topic with policy validation and GitOps deployment
+  tags:
+    - kafka
+    - self-service
+spec:
+  owner: platform-team
+  type: resource
+  parameters:
+    - title: Topic Configuration
+      required:
+        - topicName
+        - owner
+        - partitions
+      properties:
+        topicName:
+          title: Topic Name
+          type: string
+          pattern: "^[a-z][a-z0-9.-]*$"
+          description: "Use format: team-name.event-type (e.g., orders.created)"
+        owner:
+          title: Owner Team
+          type: string
+          ui:field: OwnerPicker
+        partitions:
+          title: Number of Partitions
+          type: integer
+          default: 6
+          minimum: 3
+          maximum: 50
+        replicas:
+          title: Replication Factor
+          type: integer
+          default: 3
+          minimum: 3
+        retentionMs:
+          title: Retention (hours)
+          type: integer
+          default: 168
+          description: How long to keep messages (168 = 7 days)
+        cleanupPolicy:
+          title: Cleanup Policy
+          type: string
+          enum: [delete, compact, compact-delete]
+          default: delete
+
+  steps:
+    - id: policy-validate
+      name: Validate topic config against policies
+      action: http:backstage:request
+      input:
+        method: POST
+        path: /api/proxy/policy-agent/validate
+        body:
+          domain: kafka
+          config: |
+            kind: KafkaTopic
+            metadata:
+              name: ${{ parameters.topicName }}
+            spec:
+              partitions: ${{ parameters.partitions }}
+              replicas: ${{ parameters.replicas }}
+              config:
+                retention.ms: "${{ parameters.retentionMs * 3600000 }}"
+                cleanup.policy: ${{ parameters.cleanupPolicy }}
+
+    - id: create-topic-cr
+      name: Create KafkaTopic manifest
+      action: catalog:write
+      input:
+        entity:
+          apiVersion: kafka.strimzi.io/v1beta2
+          kind: KafkaTopic
+          metadata:
+            name: ${{ parameters.topicName }}
+            namespace: kafka
+            labels:
+              strimzi.io/cluster: kafka
+              owner: ${{ parameters.owner }}
+          spec:
+            partitions: ${{ parameters.partitions }}
+            replicas: ${{ parameters.replicas }}
+            config:
+              retention.ms: "${{ parameters.retentionMs * 3600000 }}"
+              cleanup.policy: ${{ parameters.cleanupPolicy }}
+
+  output:
+    links:
+      - title: View Topic
+        url: /kafka

@@ -1,0 +1,13 @@
+gatekeeper:
+  replicas: 2
+  auditInterval: 60
+  constraintViolationsLimit: 20
+  auditFromCache: false
+  emitAdmissionEvents: true
+  emitAuditEvents: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 512Mi

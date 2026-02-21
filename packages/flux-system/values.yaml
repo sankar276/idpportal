@@ -1,0 +1,9 @@
+cluster:
+  name: ""
+  region: ""
+  environment: ""
+
+gitRepository:
+  url: https://github.com/your-org/idpportal.git
+  branch: main
+  interval: 5m

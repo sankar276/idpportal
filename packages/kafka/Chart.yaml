@@ -1,0 +1,9 @@
+apiVersion: v2
+name: kafka
+description: Strimzi Kafka operator and cluster
+version: 1.0.0
+type: application
+dependencies:
+  - name: strimzi-kafka-operator
+    version: "0.43.x"
+    repository: https://strimzi.io/charts/

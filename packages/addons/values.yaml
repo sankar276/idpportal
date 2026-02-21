@@ -1,0 +1,47 @@
+repoURL: https://github.com/your-org/idpportal.git
+targetRevision: main
+basePath: packages
+
+addons:
+  argo-cd:
+    enabled: true
+    namespace: argocd
+  flux-system:
+    enabled: true
+    namespace: flux-system
+  backstage:
+    enabled: true
+    namespace: backstage
+  keycloak:
+    enabled: true
+    namespace: keycloak
+  vault:
+    enabled: true
+    namespace: vault
+  kafka:
+    enabled: true
+    namespace: kafka
+  rancher:
+    enabled: false
+    namespace: cattle-system
+  cert-manager:
+    enabled: true
+    namespace: cert-manager
+  external-dns:
+    enabled: true
+    namespace: external-dns
+  external-secrets:
+    enabled: true
+    namespace: external-secrets
+  ingress-nginx:
+    enabled: true
+    namespace: ingress-nginx
+  opa-gatekeeper:
+    enabled: true
+    namespace: gatekeeper-system
+  policy-agent:
+    enabled: true
+    namespace: policy-agent
+  ai-platform:
+    enabled: true
+    namespace: idpportal

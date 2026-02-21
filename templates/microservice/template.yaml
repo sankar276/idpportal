@@ -1,0 +1,142 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: microservice
+  title: Create Microservice
+  description: Create a new microservice with CI/CD, GitOps deployment, and policy validation
+  tags:
+    - recommended
+    - microservice
+    - golden-path
+spec:
+  owner: platform-team
+  type: service
+  parameters:
+    - title: Service Details
+      required:
+        - name
+        - owner
+        - language
+      properties:
+        name:
+          title: Service Name
+          type: string
+          pattern: "^[a-z][a-z0-9-]*$"
+          description: Lowercase kebab-case name
+        description:
+          title: Description
+          type: string
+        owner:
+          title: Owner Team
+          type: string
+          ui:field: OwnerPicker
+        language:
+          title: Language
+          type: string
+          enum: [python, go, typescript, java]
+          default: python
+    - title: Deployment Configuration
+      required:
+        - gitopsEngine
+      properties:
+        gitopsEngine:
+          title: GitOps Engine
+          type: string
+          enum: [argocd, flux]
+          default: argocd
+          description: Choose ArgoCD or Flux for GitOps deployment
+        namespace:
+          title: Target Namespace
+          type: string
+          default: default
+        replicas:
+          title: Replicas
+          type: integer
+          default: 2
+          minimum: 1
+    - title: Optional Features
+      properties:
+        enableKafka:
+          title: Enable Kafka
+          type: boolean
+          default: false
+        kafkaTopicName:
+          title: Kafka Topic Name
+          type: string
+          ui:options:
+            hidden: "{{ not parameters.enableKafka }}"
+        enableDatabase:
+          title: Enable Database
+          type: boolean
+          default: false
+        databaseType:
+          title: Database Type
+          type: string
+          enum: [postgresql, mysql]
+          default: postgresql
+          ui:options:
+            hidden: "{{ not parameters.enableDatabase }}"
+
+  steps:
+    - id: policy-validate
+      name: Validate against policies
+      action: http:backstage:request
+      input:
+        method: POST
+        path: /api/proxy/policy-agent/validate
+        body:
+          domain: kubernetes
+          config: |
+            kind: Deployment
+            metadata:
+              name: ${{ parameters.name }}
+            spec:
+              replicas: ${{ parameters.replicas }}
+
+    - id: create-repo
+      name: Create GitHub repository
+      action: publish:github
+      input:
+        repoUrl: github.com?owner=your-org&repo=${{ parameters.name }}
+        description: ${{ parameters.description }}
+        defaultBranch: main
+        repoVisibility: internal
+
+    - id: create-gitops
+      name: Create GitOps deployment
+      action: catalog:write
+      input:
+        entity:
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            name: ${{ parameters.name }}
+            namespace: argocd
+          spec:
+            project: default
+            source:
+              repoURL: ${{ steps['create-repo'].output.remoteUrl }}
+              path: deploy
+              targetRevision: main
+            destination:
+              server: https://kubernetes.default.svc
+              namespace: ${{ parameters.namespace }}
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
+
+    - id: register
+      name: Register in catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['create-repo'].output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['create-repo'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}

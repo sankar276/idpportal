@@ -1,0 +1,15 @@
+external-dns:
+  provider: aws
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: ""  # Set via GitOps Bridge
+  policy: sync
+  sources:
+    - service
+    - ingress
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 128Mi

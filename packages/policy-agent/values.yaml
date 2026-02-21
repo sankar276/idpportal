@@ -1,0 +1,27 @@
+replicaCount: 2
+
+image:
+  repository: your-registry/policy-agent
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  port: 8443
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    memory: 256Mi
+
+anthropicApiKey:
+  existingSecret: policy-agent-secrets
+  key: anthropic-api-key
+
+webhook:
+  enabled: true
+  failurePolicy: Ignore  # Start with Ignore, switch to Fail once stable
+  namespaceSelector:
+    matchLabels:
+      policy-agent/validate: "true"

@@ -1,0 +1,79 @@
+keycloak:
+  auth:
+    adminUser: admin
+    existingSecret: keycloak-admin
+
+  production: true
+  proxy: edge
+
+  postgresql:
+    enabled: true
+    auth:
+      existingSecret: keycloak-db
+
+  extraEnvVars:
+    - name: KC_HOSTNAME
+      value: keycloak.idp.example.com
+    - name: KC_FEATURES
+      value: "declarative-user-profile"
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      memory: 1Gi
+
+  keycloakConfigCli:
+    enabled: true
+    configuration:
+      idpportal-realm.json: |
+        {
+          "realm": "idpportal",
+          "enabled": true,
+          "sslRequired": "external",
+          "registrationAllowed": false,
+          "clients": [
+            {
+              "clientId": "idpportal-ui",
+              "enabled": true,
+              "publicClient": true,
+              "redirectUris": ["https://portal.idp.example.com/*"],
+              "webOrigins": ["https://portal.idp.example.com"],
+              "protocol": "openid-connect"
+            },
+            {
+              "clientId": "backstage",
+              "enabled": true,
+              "publicClient": false,
+              "redirectUris": ["https://backstage.idp.example.com/*"],
+              "protocol": "openid-connect"
+            },
+            {
+              "clientId": "argocd",
+              "enabled": true,
+              "publicClient": false,
+              "redirectUris": ["https://argocd.idp.example.com/*"],
+              "protocol": "openid-connect"
+            },
+            {
+              "clientId": "vault",
+              "enabled": true,
+              "publicClient": false,
+              "redirectUris": ["https://vault.idp.example.com/*"],
+              "protocol": "openid-connect"
+            }
+          ],
+          "roles": {
+            "realm": [
+              {"name": "platform-admin", "description": "Platform administrator"},
+              {"name": "developer", "description": "Developer"},
+              {"name": "viewer", "description": "Read-only viewer"}
+            ]
+          },
+          "groups": [
+            {"name": "platform-admins", "realmRoles": ["platform-admin"]},
+            {"name": "developers", "realmRoles": ["developer"]},
+            {"name": "viewers", "realmRoles": ["viewer"]}
+          ]
+        }

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: backstage
+description: Backstage developer portal with Keycloak auth
+version: 1.0.0
+type: application
+dependencies:
+  - name: backstage
+    version: "2.x"
+    repository: https://backstage.github.io/charts

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: external-dns
+description: External DNS for automatic DNS record management
+version: 1.0.0
+type: application
+dependencies:
+  - name: external-dns
+    version: "1.15.x"
+    repository: https://kubernetes-sigs.github.io/external-dns/

@@ -1,0 +1,59 @@
+name: CI - UI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ui/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'ui/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ui/package-lock.json
+      - name: Install dependencies
+        run: cd ui && npm ci
+      - name: Lint
+        run: cd ui && npm run lint
+
+  build:
+    needs: [lint]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ui/package-lock.json
+      - name: Install dependencies
+        run: cd ui && npm ci
+      - name: Build
+        run: cd ui && npm run build
+
+  docker:
+    needs: [build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./ui
+          push: false
+          tags: idpportal-ui:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

@@ -1,0 +1,53 @@
+# IDP Portal Configuration
+# This is the single source of truth for environment-specific values.
+# Do NOT commit sensitive values here - use .env or AWS Secrets Manager.
+
+cluster_name: "idpportal-dev"
+region: "us-east-1"
+environment: "dev"
+domain: "idp.example.com"
+route53_hosted_zone_id: ""
+path_routing: true
+
+repo:
+  url: "https://github.com/your-org/idpportal"
+  revision: "main"
+  basepath: "packages"
+
+auth:
+  provider: "keycloak"          # keycloak | okta | forgerock
+  identity_broker: ""           # okta | forgerock (brokered through Keycloak)
+  keycloak_realm: "idpportal"
+
+ai:
+  llm_provider: "anthropic"     # anthropic | openai | azure_openai
+  model: "claude-sonnet-4-20250514"
+  embedding_model: "text-embedding-3-small"
+
+addons:
+  argo_cd: true
+  flux_cd: true
+  backstage: true
+  keycloak: true
+  vault: true
+  kafka: true
+  rancher: true
+  cert_manager: true
+  external_dns: true
+  external_secrets: true
+  ingress_nginx: true
+  opa_gatekeeper: true
+  policy_agent: true
+
+kafka:
+  provider: "strimzi"           # strimzi | msk
+  bootstrap_servers: ""
+
+vault:
+  address: ""
+  auto_unseal: "awskms"         # awskms | shamir
+
+tags:
+  project: "idpportal"
+  team: "platform-engineering"
+  managed_by: "terraform"

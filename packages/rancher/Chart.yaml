@@ -1,0 +1,9 @@
+apiVersion: v2
+name: rancher
+description: Rancher server for multi-cluster Kubernetes management
+version: 1.0.0
+type: application
+dependencies:
+  - name: rancher
+    version: "2.9.x"
+    repository: https://releases.rancher.com/server-charts/stable

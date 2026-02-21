@@ -1,0 +1,70 @@
+name: CI - Policy Agent
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'policy-agent/**'
+      - 'policies/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'policy-agent/**'
+      - 'policies/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache-dependency-path: policy-agent/go.sum
+      - name: Vet
+        run: cd policy-agent && go vet ./...
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          working-directory: policy-agent
+          version: latest
+
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache-dependency-path: policy-agent/go.sum
+      - name: Test
+        run: cd policy-agent && go test ./... -v -race -coverprofile=coverage.out
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: policy-agent/coverage.out
+
+  build:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache-dependency-path: policy-agent/go.sum
+      - name: Build CLI
+        run: cd policy-agent && CGO_ENABLED=0 go build -o bin/policy-agent ./cmd/policy-agent
+      - name: Build Webhook
+        run: cd policy-agent && CGO_ENABLED=0 go build -o bin/webhook ./cmd/webhook
+      - name: Docker build
+        if: github.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v6
+        with:
+          context: ./policy-agent
+          push: false
+          tags: policy-agent:${{ github.sha }}

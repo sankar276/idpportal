@@ -1,0 +1,53 @@
+backstage:
+  image:
+    registry: ""
+    repository: ""
+    tag: latest
+
+  appConfig:
+    app:
+      title: IDP Portal - Backstage
+      baseUrl: https://backstage.idp.example.com
+
+    backend:
+      baseUrl: https://backstage.idp.example.com
+      database:
+        client: pg
+        connection:
+          host: ${POSTGRES_HOST}
+          port: ${POSTGRES_PORT}
+          user: ${POSTGRES_USER}
+          password: ${POSTGRES_PASSWORD}
+
+    auth:
+      providers:
+        oidc:
+          development:
+            metadataUrl: https://keycloak.idp.example.com/realms/idpportal/.well-known/openid-configuration
+            clientId: backstage
+            clientSecret: ${KEYCLOAK_CLIENT_SECRET}
+            prompt: auto
+
+    integrations:
+      github:
+        - host: github.com
+          apps:
+            - appId: ${GITHUB_APP_ID}
+              privateKey: ${GITHUB_APP_PRIVATE_KEY}
+              webhookSecret: ${GITHUB_WEBHOOK_SECRET}
+              clientId: ${GITHUB_CLIENT_ID}
+              clientSecret: ${GITHUB_CLIENT_SECRET}
+
+    catalog:
+      locations:
+        - type: url
+          target: https://github.com/your-org/idpportal/blob/main/templates/*/template.yaml
+          rules:
+            - allow: [Template]
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      memory: 1Gi

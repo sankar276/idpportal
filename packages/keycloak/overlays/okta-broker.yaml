@@ -1,0 +1,38 @@
+# Keycloak Identity Broker configuration for Okta
+# Apply as a Keycloak realm import overlay
+identityProviders:
+  - alias: okta
+    displayName: "Sign in with Okta"
+    providerId: oidc
+    enabled: true
+    trustEmail: true
+    firstBrokerLoginFlowAlias: "first broker login"
+    config:
+      clientId: "${OKTA_CLIENT_ID}"
+      clientSecret: "${OKTA_CLIENT_SECRET}"
+      tokenUrl: "https://${OKTA_DOMAIN}/oauth2/default/v1/token"
+      authorizationUrl: "https://${OKTA_DOMAIN}/oauth2/default/v1/authorize"
+      logoutUrl: "https://${OKTA_DOMAIN}/oauth2/default/v1/logout"
+      userInfoUrl: "https://${OKTA_DOMAIN}/oauth2/default/v1/userinfo"
+      issuer: "https://${OKTA_DOMAIN}/oauth2/default"
+      defaultScope: "openid profile email groups"
+      syncMode: "IMPORT"
+      validateSignature: "true"
+      useJwksUrl: "true"
+      jwksUrl: "https://${OKTA_DOMAIN}/oauth2/default/v1/keys"
+
+identityProviderMappers:
+  - name: okta-email
+    identityProviderAlias: okta
+    identityProviderMapper: oidc-user-attribute-idp-mapper
+    config:
+      claim: email
+      user.attribute: email
+  - name: okta-groups
+    identityProviderAlias: okta
+    identityProviderMapper: oidc-user-attribute-idp-mapper
+    config:
+      claim: groups
+      user.attribute: groups
+      are.claim.values.regex: false
+      syncMode: INHERIT

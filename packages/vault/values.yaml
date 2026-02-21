@@ -1,0 +1,36 @@
+vault:
+  server:
+    ha:
+      enabled: true
+      replicas: 3
+      raft:
+        enabled: true
+    serviceAccount:
+      annotations:
+        eks.amazonaws.com/role-arn: ""  # Set via GitOps Bridge
+    seal:
+      type: awskms
+      config:
+        region: ""  # Set via GitOps Bridge
+        kms_key_id: ""  # Set via GitOps Bridge
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
+      limits:
+        memory: 512Mi
+    dataStorage:
+      enabled: true
+      size: 10Gi
+    auditStorage:
+      enabled: true
+      size: 10Gi
+
+  ui:
+    enabled: true
+    serviceType: ClusterIP
+
+vault-secrets-operator:
+  defaultVaultConnection:
+    enabled: true
+    address: http://vault.vault.svc.cluster.local:8200

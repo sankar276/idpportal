@@ -1,0 +1,5 @@
+apiVersion: v2
+name: ai-platform
+description: IDP Portal AI backend and UI deployment
+version: 1.0.0
+type: application

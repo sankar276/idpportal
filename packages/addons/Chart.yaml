@@ -1,0 +1,5 @@
+apiVersion: v2
+name: addons
+description: App-of-Apps umbrella chart with ApplicationSet for platform addons
+version: 1.0.0
+type: application

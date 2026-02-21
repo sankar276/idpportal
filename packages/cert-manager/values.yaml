@@ -1,0 +1,11 @@
+cert-manager:
+  installCRDs: true
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: ""  # Set via GitOps Bridge
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 128Mi

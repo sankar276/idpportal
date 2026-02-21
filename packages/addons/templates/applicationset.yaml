@@ -1,0 +1,59 @@
+{{- range $name, $addon := .Values.addons }}
+{{- if $addon.enabled }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ $name }}
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+  template:
+    metadata:
+      name: '{{ $name }}-{{ `{{ .name }}` }}'
+    spec:
+      project: default
+      source:
+        repoURL: {{ $.Values.repoURL }}
+        targetRevision: {{ $.Values.targetRevision }}
+        path: {{ $.Values.basePath }}/{{ $name }}
+        helm:
+          valueFiles:
+            - values.yaml
+          parameters:
+            - name: cluster.name
+              value: '{{ `{{ index .metadata.annotations "cluster_name" }}` }}'
+            - name: cluster.region
+              value: '{{ `{{ index .metadata.annotations "region" }}` }}'
+            - name: cluster.environment
+              value: '{{ `{{ index .metadata.annotations "environment" }}` }}'
+            {{- if eq $name "external-secrets" }}
+            - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
+              value: '{{ `{{ index .metadata.annotations "iam_role_arn_external_secrets" }}` }}'
+            {{- end }}
+            {{- if eq $name "external-dns" }}
+            - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
+              value: '{{ `{{ index .metadata.annotations "iam_role_arn_external_dns" }}` }}'
+            {{- end }}
+            {{- if eq $name "cert-manager" }}
+            - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
+              value: '{{ `{{ index .metadata.annotations "iam_role_arn_cert_manager" }}` }}'
+            {{- end }}
+      destination:
+        server: '{{ `{{ .server }}` }}'
+        namespace: {{ $addon.namespace }}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+{{- end }}
+{{- end }}

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: argo-cd
+description: Argo CD with Keycloak SSO and repo credentials
+version: 1.0.0
+type: application
+dependencies:
+  - name: argo-cd
+    version: "7.6.x"
+    repository: https://argoproj.github.io/argo-helm

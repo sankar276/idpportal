@@ -1,0 +1,65 @@
+name: Policy Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '**.yaml'
+      - '**.yml'
+      - '**.tf'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache-dependency-path: policy-agent/go.sum
+
+      - name: Build policy-agent
+        run: cd policy-agent && go build -o ../bin/policy-agent ./cmd/policy-agent
+
+      - name: Get changed files
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          list-files: shell
+          filters: |
+            kubernetes:
+              - '**/*deployment*.yaml'
+              - '**/*deployment*.yml'
+              - '**/templates/**'
+            kafka:
+              - '**/*kafka*.yaml'
+              - '**/*topic*.yaml'
+            terraform:
+              - '**/*.tf'
+
+      - name: Validate Kubernetes configs
+        if: steps.changes.outputs.kubernetes == 'true'
+        run: |
+          echo "Validating Kubernetes configurations..."
+          failed=0
+          for file in ${{ steps.changes.outputs.kubernetes_files }}; do
+            echo "  Checking $file"
+            ./bin/policy-agent validate --domain kubernetes --file "$file" --policies-dir ./policies || failed=1
+          done
+          exit $failed
+
+      - name: Validate Kafka configs
+        if: steps.changes.outputs.kafka == 'true'
+        run: |
+          echo "Validating Kafka configurations..."
+          failed=0
+          for file in ${{ steps.changes.outputs.kafka_files }}; do
+            echo "  Checking $file"
+            ./bin/policy-agent validate --domain kafka --file "$file" --policies-dir ./policies || failed=1
+          done
+          exit $failed
+
+      - name: Policy check summary
+        if: always()
+        run: echo "Policy validation complete"

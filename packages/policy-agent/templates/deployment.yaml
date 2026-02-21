@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: policy-agent
+  labels:
+    app: policy-agent
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: policy-agent
+  template:
+    metadata:
+      labels:
+        app: policy-agent
+    spec:
+      containers:
+        - name: policy-agent
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8443
+              protocol: TCP
+          args:
+            - --port=8443
+            - --policies-dir=/policies
+          env:
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.anthropicApiKey.existingSecret }}
+                  key: {{ .Values.anthropicApiKey.key }}
+                  optional: true
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: policies
+              mountPath: /policies
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8443
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8443
+            initialDelaySeconds: 3
+            periodSeconds: 5
+      volumes:
+        - name: policies
+          configMap:
+            name: policy-agent-policies

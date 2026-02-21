@@ -1,0 +1,50 @@
+backend:
+  replicaCount: 2
+  image:
+    repository: your-registry/idpportal-backend
+    tag: latest
+  port: 8000
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      memory: 1Gi
+  env:
+    DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/idpportal
+    REDIS_URL: redis://redis:6379/0
+    KEYCLOAK_URL: http://keycloak.keycloak.svc.cluster.local:8080
+    KEYCLOAK_REALM: idpportal
+    KEYCLOAK_CLIENT_ID: idpportal
+    POLICY_AGENT_URL: http://policy-agent.policy-agent.svc.cluster.local:8443
+    BACKSTAGE_URL: http://backstage.backstage.svc.cluster.local:7007
+
+ui:
+  replicaCount: 2
+  image:
+    repository: your-registry/idpportal-ui
+    tag: latest
+  port: 3000
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      memory: 256Mi
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: portal.idp.example.com
+      paths:
+        - path: /
+          service: ui
+        - path: /api
+          service: backend
+  tls:
+    - secretName: portal-tls
+      hosts:
+        - portal.idp.example.com

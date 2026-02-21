@@ -1,0 +1,30 @@
+{{- if .Values.webhook.enabled }}
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: policy-agent
+webhooks:
+  - name: policy-agent.idpportal.io
+    clientConfig:
+      service:
+        name: policy-agent
+        namespace: {{ .Release.Namespace }}
+        path: /webhook/validate
+        port: {{ .Values.service.port }}
+    rules:
+      - apiGroups: ["apps"]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["deployments"]
+      - apiGroups: ["kafka.strimzi.io"]
+        apiVersions: ["v1beta2"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["kafkatopics"]
+    failurePolicy: {{ .Values.webhook.failurePolicy }}
+    sideEffects: None
+    admissionReviewVersions: ["v1"]
+    {{- if .Values.webhook.namespaceSelector }}
+    namespaceSelector:
+      {{- toYaml .Values.webhook.namespaceSelector | nindent 6 }}
+    {{- end }}
+{{- end }}

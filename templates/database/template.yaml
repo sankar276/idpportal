@@ -1,0 +1,86 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: database
+  title: Provision Database
+  description: Provision a managed database with credentials stored in Vault
+  tags:
+    - database
+    - self-service
+    - infrastructure
+spec:
+  owner: platform-team
+  type: resource
+  parameters:
+    - title: Database Configuration
+      required:
+        - name
+        - owner
+        - engine
+      properties:
+        name:
+          title: Database Name
+          type: string
+          pattern: "^[a-z][a-z0-9_]*$"
+        owner:
+          title: Owner Team
+          type: string
+          ui:field: OwnerPicker
+        engine:
+          title: Database Engine
+          type: string
+          enum: [postgresql, mysql, aurora-postgresql]
+          default: postgresql
+        instanceClass:
+          title: Instance Size
+          type: string
+          enum: [db.t3.micro, db.t3.small, db.t3.medium, db.r6g.large]
+          default: db.t3.small
+        storageGb:
+          title: Storage (GB)
+          type: integer
+          default: 20
+          minimum: 20
+          maximum: 500
+        multiAz:
+          title: Multi-AZ Deployment
+          type: boolean
+          default: false
+          description: Enable for production workloads
+
+  steps:
+    - id: policy-validate
+      name: Validate against infrastructure policies
+      action: http:backstage:request
+      input:
+        method: POST
+        path: /api/proxy/policy-agent/validate
+        body:
+          domain: terraform
+          config: |
+            resource_type: aws_db_instance
+            values:
+              engine: ${{ parameters.engine }}
+              instance_class: ${{ parameters.instanceClass }}
+              allocated_storage: ${{ parameters.storageGb }}
+              multi_az: ${{ parameters.multiAz }}
+              storage_encrypted: true
+              publicly_accessible: false
+              backup_retention_period: 7
+
+    - id: store-credentials
+      name: Store credentials in Vault
+      action: http:backstage:request
+      input:
+        method: POST
+        path: /api/proxy/vault/v1/secret/data/databases/${{ parameters.name }}
+        body:
+          data:
+            engine: ${{ parameters.engine }}
+            database: ${{ parameters.name }}
+            status: provisioning
+
+  output:
+    links:
+      - title: View in Secrets
+        url: /secrets

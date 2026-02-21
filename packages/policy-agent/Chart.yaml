@@ -1,0 +1,5 @@
+apiVersion: v2
+name: policy-agent
+description: Policy Agent K8s webhook deployment with OPA/Rego
+version: 1.0.0
+type: application

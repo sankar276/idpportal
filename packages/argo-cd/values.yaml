@@ -1,0 +1,44 @@
+argo-cd:
+  server:
+    extraArgs:
+      - --insecure
+    config:
+      url: https://argocd.idp.example.com
+      oidc.config: |
+        name: Keycloak
+        issuer: https://keycloak.idp.example.com/realms/idpportal
+        clientID: argocd
+        clientSecret: $oidc.keycloak.clientSecret
+        requestedScopes: ["openid", "profile", "email", "groups"]
+      resource.customizations: |
+        argoproj.io/Application:
+          health.lua: |
+            hs = {}
+            hs.status = "Healthy"
+            hs.message = ""
+            if obj.status ~= nil then
+              if obj.status.health ~= nil then
+                hs.status = obj.status.health.status
+                hs.message = obj.status.health.message
+              end
+            end
+            return hs
+    rbacConfig:
+      policy.csv: |
+        g, platform-admins, role:admin
+        g, developers, role:readonly
+      policy.default: role:readonly
+
+  controller:
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        memory: 1Gi
+
+  applicationSet:
+    enabled: true
+
+  notifications:
+    enabled: true
