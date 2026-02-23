@@ -31,7 +31,10 @@ jobs:
           aws-region: us-west-2
 
       - name: Terraform Init
-        run: cd $TF_DIR && terraform init -backend-config=envs/dev.tfvars
+        run: cd $TF_DIR && terraform init -backend-config=envs/${{ vars.TF_ENVIRONMENT || 'dev' }}.tfvars
+
+      - name: Terraform Plan
+        run: cd $TF_DIR && terraform plan -var-file=envs/${{ vars.TF_ENVIRONMENT || 'dev' }}.tfvars -out=tfplan -lock=true
 
       - name: Terraform Apply
-        run: cd $TF_DIR && terraform apply -var-file=envs/dev.tfvars -auto-approve
+        run: cd $TF_DIR && terraform apply -lock=true tfplan

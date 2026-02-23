@@ -38,6 +38,18 @@ variable "node_desired_size" {
   default = 3
 }
 
+variable "cluster_endpoint_public_access" {
+  description = "Whether the EKS API endpoint is publicly accessible. Set to false for production."
+  type        = bool
+  default     = true
+}
+
+variable "kms_key_arn" {
+  description = "KMS key ARN for encrypting K8s secrets at rest"
+  type        = string
+  default     = ""
+}
+
 variable "tags" {
   type    = map(string)
   default = {}

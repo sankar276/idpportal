@@ -40,6 +40,8 @@ This project draws architectural inspiration from the following open-source proj
 - [Development](#development)
 - [Deployment](#deployment)
 - [CI/CD Pipelines](#cicd-pipelines)
+- [Self-Service Capabilities](#self-service-capabilities)
+- [Implementation Guide](#implementation-guide)
 
 ---
 
@@ -260,6 +262,8 @@ This project draws architectural inspiration from the following open-source proj
   |             | resolve, get_oncall, trigger          |              |
   | backstage   | list_entities, get_entity            | Backstage API|
   |             | trigger_template, search              |              |
+  | kubernetes  | list_pods, get_pod_status, list_svcs  | kubectl      |
+  |             | list_namespaces, get_logs, scale, evts|              |
   | kafka       | create_topic, list_topics            | Strimzi CRDs |
   |             | describe, update_config, delete       | via kubectl  |
   | vault       | read_secret, write_secret            | Vault HTTP   |
@@ -654,7 +658,7 @@ idpportal/
 │   │   │   ├── agents.py               # Agent management
 │   │   │   ├── selfservice.py          # Self-service provisioning
 │   │   │   └── health.py               # Health/readiness
-│   │   ├── agents/                      # 12 AI agents
+│   │   ├── agents/                      # 13 AI agents
 │   │   │   ├── base.py                  # BaseAgent ABC + AgentCard
 │   │   │   ├── registry.py             # Agent discovery
 │   │   │   ├── supervisor.py           # LangGraph orchestrator
@@ -665,9 +669,10 @@ idpportal/
 │   │   │   ├── slack/                  # Slack (messages, channels)
 │   │   │   ├── pagerduty/             # PagerDuty (incidents)
 │   │   │   ├── backstage/             # Backstage (catalog)
+│   │   │   ├── kubernetes/             # Kubernetes (pods, services, logs, scale)
 │   │   │   ├── kafka/                  # Kafka (topics via Strimzi)
 │   │   │   ├── vault/                  # Vault (secrets CRUD)
-│   │   │   ├── rancher/               # Rancher (clusters)
+│   │   │   ├── rancher/               # Rancher (multi-cluster mgmt)
 │   │   │   └── policy/                # Policy (validate/generate/fix)
 │   │   └── services/
 │   │       ├── llm.py                   # Claude / OpenAI factory
@@ -845,6 +850,24 @@ Developers can self-serve through the portal UI or AI chat:
 | **Worker Service** | Background job processor with SQS/Kafka consumer |
 
 All provisioning is policy-gated: configs are validated against OPA/Rego policies before any resources are created.
+
+---
+
+## Implementation Guide
+
+For the complete step-by-step execution guide, see **[IMPLEMENTATION.md](IMPLEMENTATION.md)**.
+
+It covers everything needed to get this platform running:
+- **Local Development** — Docker Compose, hot reload, policy agent CLI
+- **AWS Infrastructure** — Terraform state backend, VPC/EKS provisioning
+- **EKS Bootstrap** — ArgoCD + ESO install, ApplicationSet sync
+- **Platform Services** — Keycloak, Vault, Kafka, AWS Secrets Manager
+- **Application Deployment** — Docker build, ECR push, Helm values, webhook setup
+- **CI/CD Pipelines** — GitHub Actions, OIDC for AWS, release workflow
+- **Self-Service** — Backstage templates, AI chat provisioning
+- **Production Hardening** — Network policies, observability, backups
+- **Verification Checklist** — Complete post-deploy validation
+- **Troubleshooting** — Common issues and fixes
 
 ---
 

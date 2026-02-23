@@ -8,9 +8,16 @@ module "eks" {
   vpc_id     = var.vpc_id
   subnet_ids = var.private_subnet_ids
 
-  cluster_endpoint_public_access = true
+  cluster_endpoint_public_access  = var.cluster_endpoint_public_access # false for production
+  cluster_endpoint_private_access = true
 
   enable_cluster_creator_admin_permissions = true
+
+  # Encrypt K8s secrets at rest with KMS
+  cluster_encryption_config = {
+    resources        = ["secrets"]
+    provider_key_arn = var.kms_key_arn
+  }
 
   cluster_addons = {
     coredns = {

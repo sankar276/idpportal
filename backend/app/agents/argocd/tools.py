@@ -12,13 +12,21 @@ def _url(path: str) -> str:
     return f"{settings.argocd_server_url}/api/v1{path}"
 
 
+def _client() -> httpx.AsyncClient:
+    """Create HTTP client with configurable TLS verification."""
+    return httpx.AsyncClient(
+        verify=settings.argocd_verify_tls,
+        timeout=settings.http_timeout,
+    )
+
+
 @tool
 async def list_applications(project: str = "") -> list[dict]:
     """List all ArgoCD applications, optionally filtered by project."""
     params = {}
     if project:
         params["projects"] = [project]
-    async with httpx.AsyncClient(verify=False) as client:
+    async with _client() as client:
         resp = await client.get(_url("/applications"), headers=_headers(), params=params)
         resp.raise_for_status()
         apps = resp.json().get("items", [])
@@ -37,7 +45,7 @@ async def list_applications(project: str = "") -> list[dict]:
 @tool
 async def get_application_status(app_name: str) -> dict:
     """Get detailed status of an ArgoCD application."""
-    async with httpx.AsyncClient(verify=False) as client:
+    async with _client() as client:
         resp = await client.get(_url(f"/applications/{app_name}"), headers=_headers())
         resp.raise_for_status()
         app = resp.json()
@@ -55,7 +63,7 @@ async def get_application_status(app_name: str) -> dict:
 @tool
 async def sync_application(app_name: str, prune: bool = False) -> dict:
     """Trigger a sync for an ArgoCD application."""
-    async with httpx.AsyncClient(verify=False) as client:
+    async with _client() as client:
         resp = await client.post(
             _url(f"/applications/{app_name}/sync"),
             headers=_headers(),
@@ -68,7 +76,7 @@ async def sync_application(app_name: str, prune: bool = False) -> dict:
 @tool
 async def rollback_application(app_name: str, revision_id: int) -> dict:
     """Rollback an ArgoCD application to a specific revision."""
-    async with httpx.AsyncClient(verify=False) as client:
+    async with _client() as client:
         resp = await client.post(
             _url(f"/applications/{app_name}/rollback"),
             headers=_headers(),
@@ -81,7 +89,7 @@ async def rollback_application(app_name: str, revision_id: int) -> dict:
 @tool
 async def get_deployment_history(app_name: str) -> list[dict]:
     """Get deployment history for an ArgoCD application."""
-    async with httpx.AsyncClient(verify=False) as client:
+    async with _client() as client:
         resp = await client.get(_url(f"/applications/{app_name}"), headers=_headers())
         resp.raise_for_status()
         app = resp.json()
